@@ -9,7 +9,7 @@ import json
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
 
-
+"""
 class noticeList(APIView):
     # 게시물 생성 post
     def post(self, request, format = None):
@@ -26,6 +26,9 @@ class noticeList(APIView):
 
 """
 
+
+
+
 @api_view(['GET'])
 def notice(request):
     res = []
@@ -36,4 +39,3 @@ def notice(request):
     return HttpResponse(result, content_type="text/json-comment-filtered")
 
 
-"""
