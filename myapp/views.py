@@ -24,6 +24,30 @@ class noticeList(APIView):
         serializer = NoticeSerializer(queryset, many = True)
         return Response(serializer.data)
 
+class homeList(APIView):
+    def post(self, request):
+        serializer = HomeSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    def get(self, request):
+        queryset = Home.objects.all()
+        serializer = HomeSerializer(queryset, many = True)
+        return Response(serializer.data)
+"""
 
+class homeDetail(APIView):
+    def get_object(self, addr):
+        return Home.objects.filter(address=addr)
 
+    def get(self, request, addr):
+        home = self.get_object(addr)
+        res = []
+        for info in vmInfoes.values():
+            tmp = info
+            res.append(tmp)
+        result = json.dumps(res, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type="text/json-comment-filtered")
 
+"""
