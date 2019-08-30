@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import pymysql
+
+pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,7 +27,7 @@ SECRET_KEY = 'n!z=xudza(_!ls@rurya%(a1nev#^*2&va_xj$@$8wies*6r!o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ec2-54-180-24-178.ap-northeast-2.compute.amazonaws.com', '54.180.24.178']
 
 
 # Application definition
@@ -79,9 +82,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'hackathon',
-        'USER': 'root',
+        'USER': 'user',
         'PASSWORD': '12341234',
-        'HOST': '127.0.0.1',
+        'HOST': 'db.ci5xkq0xyo3b.ap-northeast-2.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
@@ -124,3 +127,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
