@@ -3,7 +3,7 @@ import datetime
 
 class Home(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=30, null=False, default='아파트')
+    address = models.CharField(max_length=30, null=False, default='아파트')
     home_No = models.IntegerField(null=False, default=0)
     message = models.TextField(default = "특별한 일정이 없습니다.")
     isOn = models.IntegerField(default = 1)
