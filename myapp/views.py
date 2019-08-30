@@ -35,7 +35,7 @@ class homeList(APIView):
         queryset = Home.objects.all()
         serializer = HomeSerializer(queryset, many = True)
         return Response(serializer.data)
-"""
+
 
 class homeDetail(APIView):
     def get_object(self, addr):
@@ -43,11 +43,5 @@ class homeDetail(APIView):
 
     def get(self, request, addr):
         home = self.get_object(addr)
-        res = []
-        for info in vmInfoes.values():
-            tmp = info
-            res.append(tmp)
-        result = json.dumps(res, cls=DjangoJSONEncoder)
-    return HttpResponse(result, content_type="text/json-comment-filtered")
-
-"""
+        serializer = HomeSerializer(home, many = True)
+        return Response(serializer.data)
