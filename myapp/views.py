@@ -58,7 +58,7 @@ class homeDetail(APIView):
         home = self.get_object(addr)
         idx = []
         for info in home.values():
-            idx.append(info['home_id'])
+            idx.append(info['home_No'])
         res = []
         for i in range(len(idx)):
             for info in Status.objects.filter(id = idx[i]).values():
