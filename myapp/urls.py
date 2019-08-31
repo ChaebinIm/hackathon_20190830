@@ -6,5 +6,6 @@ urlpatterns = [
     path('home', views.homeList.as_view()),
     path('home/<str:addr>', views.homeDetail.as_view()),
     path('status', views.statusList.as_view()),
+    path('homeinfo_by_id', views.homeinfo_by_id),
 
 ]

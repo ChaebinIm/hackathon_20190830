@@ -16,7 +16,6 @@ import pytz
 
 class noticeList(APIView):
     # 게시물 생성 post
-    @csrf_exempt
     def post(self, request, format = None):
         serializer = NoticeSerializer(data=request.data)
         if serializer.is_valid():
@@ -24,7 +23,7 @@ class noticeList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
     # 게시물 조회 get
-    @csrf_exempt
+
     def get(self, request, format = None):
         queryset = Notice.objects.all()
         serializer = NoticeSerializer(queryset, many = True)
@@ -42,7 +41,7 @@ class homeList(APIView):
     #        return Response(serializer.data, status=status.HTTP_201_CREATED)
     #    return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-    @csrf_exempt
+
     def get(self, request):
         queryset = Home.objects.all()
         serializer = HomeSerializer(queryset, many = True)
@@ -50,7 +49,7 @@ class homeList(APIView):
 
 
 class statusList(APIView):
-    @csrf_exempt
+
     def post(self, request):
         serializer = StatusSerializer(data = request.data)
         if serializer.is_valid():
@@ -58,7 +57,7 @@ class statusList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-    @csrf_exempt
+
     def get(self, request):
         queryset = Status.objects.all()
         serializer = StatusSerializer(queryset, many = True)
@@ -67,7 +66,6 @@ class statusList(APIView):
 
 
 class homeDetail(APIView):
-    @csrf_exempt
     def get(self, request, addr):
         print("connect complete!")
         home = Home.objects.filter(address=addr)
@@ -88,3 +86,13 @@ class homeDetail(APIView):
                     res.append(tmp)
         result = json.dumps(res, cls=DjangoJSONEncoder)
         return HttpResponse(result, content_type="text/json-comment-filtered")
+
+@api_view(['GET'])
+def homeinfo_by_id(request):
+    _address = Home.objects.filter(id = request.data['id']).values()[0]['address']
+    res = []
+    for info in Home.objects.filter(address = _address).values():
+        tmp = info
+        res.append(tmp)
+    result = json.dumps(res, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type="text/json-comment-filtered")
