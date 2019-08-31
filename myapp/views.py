@@ -122,3 +122,70 @@ def sensorData(request):
     res.append(tmp)
     result = json.dumps(res, cls=DjangoJSONEncoder)
     return HttpResponse(result, content_type="text/json-comment-filtered")
+
+
+@api_view(['POST'])
+def homeinfo_id(request):
+    _address = Home.objects.filter(id = request.data['id']).values()[0]['address']
+    res = []
+    for info in Home.objects.filter(address = _address).values():
+        tmp = info
+        res.append(tmp)
+    result = json.dumps(res, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type="text/json-comment-filtered")
+
+@api_view(['POST'])
+def my_meta_id(request):
+    res = []
+    for info in Home.objects.filter(id = request.data['id']).values():
+        tmp = info
+        res.append(tmp)
+    result = json.dumps(res, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type="text/json-comment-filtered")
+
+
+@api_view(['POST'])
+def above_meta_id(request):
+    _above = Home.objects.filter(id=request.data['id']).values()[0]['home_No'] + 100
+    res = []
+    for info in Home.objects.filter(home_No = _above).values():
+        tmp = info
+        res.append(tmp)
+    result = json.dumps(res, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type="text/json-comment-filtered")
+
+
+
+@api_view(['POST'])
+def my_sensor_data(request):
+    res = []
+    for info in Status.objects.filter(home_id_id=request.data['id']).values():
+        tmp = info
+        res.append(tmp)
+    result = json.dumps(res, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type="text/json-comment-filtered")
+
+
+
+@api_view(['POST'])
+def above_sensor_data(request):
+    _above = Home.objects.filter(id=request.data['id']).values()[0]['home_No'] + 100
+    _above_id = Home.objects.filter(home_No = _above).values()[0]['id']
+    res = []
+    for info in Status.objects.filter(home_id_id=_above_id).values():
+        tmp = info
+        res.append(tmp)
+    result = json.dumps(res, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type="text/json-comment-filtered")
+
+@api_view(['POST'])
+def message(request):
+    _home = Home.objects.filter(id=request.data['id']).update(message = request.data['message'],
+                                                              message_starttime = request.data['message_starttime'],
+                                                              message_endtime = request.data['message_endtime'])
+    res = []
+    tmp = {}
+    tmp['success'] = 1
+    res.append(tmp)
+    result = json.dumps(res, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type="text/json-comment-filtered")

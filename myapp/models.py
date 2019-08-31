@@ -8,7 +8,8 @@ class Home(models.Model):
     message = models.TextField(default = "특별한 일정이 없습니다.")
     sensor_starttime = models.DateTimeField(null=False, default=datetime.datetime.now)
     sensor_endtime = models.DateTimeField(null=False, default=datetime.datetime.now)
-
+    message_starttime = models.DateTimeField(null=False, default=datetime.datetime.now)
+    message_endtime = models.DateTimeField(null=False, default=datetime.datetime.now)
     class Meta:
         db_table = 'Home'
 
@@ -27,6 +28,7 @@ class Notice(models.Model):
     starttime = models.DateTimeField(null=False, default=datetime.datetime.now)
     endtime = models.DateTimeField(null=False, default=datetime.datetime.now)
     contents = models.TextField(default = "특별한 공지사항은 없습니다.")
+    home_id = models.ForeignKey(Home, to_field='id', on_delete=models.CASCADE, default=1)
 
     class Meta:
         db_table = 'Notice'
