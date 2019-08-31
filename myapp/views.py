@@ -112,3 +112,13 @@ def update_sensor_time(request):
         res.append(tmp)
     result = json.dumps(res, cls=DjangoJSONEncoder)
     return HttpResponse(result, content_type="text/json-comment-filtered")
+
+@api_view(['POST'])
+def sensorData(request):
+    Status.objects.create(noise=request.data['sound'], vibration=request.data['vib'], home_id_id=request.data['address'])
+    res = []
+    tmp = {}
+    tmp['success'] = 1
+    res.append(tmp)
+    result = json.dumps(res, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type="text/json-comment-filtered")

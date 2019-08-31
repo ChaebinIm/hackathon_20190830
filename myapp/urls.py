@@ -8,4 +8,5 @@ urlpatterns = [
     path('status', views.statusList.as_view()),
     path('homeinfo_by_id', views.homeinfo_by_id),
     path('update_sensor_time', views.update_sensor_time),
+    path('sensorData', views.sensorData),
 ]
