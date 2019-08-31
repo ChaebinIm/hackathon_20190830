@@ -82,6 +82,7 @@ class homeDetail(APIView):
                 if _today < info['time']:
                     tmp = info
                     tmp['home_No'] = Home.objects.filter(id = idx[i]).values()[0]['home_No']
+                    tmp['message'] = Home.objects.filter(id = idx[i]).values()[0]['message']
                     #tmp['now'] = _today
                     res.append(tmp)
         result = json.dumps(res, cls=DjangoJSONEncoder)
