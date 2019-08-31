@@ -32,13 +32,15 @@ class noticeList(APIView):
 
 
 class homeList(APIView):
-    @csrf_exempt
-    def post(self, request):
-        serializer = HomeSerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+
+    #@csrf_exempt
+    #def post(self, request):
+    #    serializer = HomeSerializer(data = request.data)
+    #    if serializer.is_valid():
+    #        serializer.save()
+    #        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #    return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
     @csrf_exempt
     def get(self, request):
