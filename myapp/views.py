@@ -89,9 +89,24 @@ class homeDetail(APIView):
 
 @api_view(['GET'])
 def homeinfo_by_id(request):
-    _address = Home.objects.filter(id = request.data['id']).values()[0]['address']
+    _address = Home.objects.filter(id = request.query_params['id']).values()[0]['address']
     res = []
     for info in Home.objects.filter(address = _address).values():
+        tmp = info
+        res.append(tmp)
+    result = json.dumps(res, cls=DjangoJSONEncoder)
+    return HttpResponse(result, content_type="text/json-comment-filtered")
+
+
+
+@api_view(['PATCH'])
+def update_sensor_time(request):
+    _id = request.data['id']
+    _start = request.data['sensor_starttime']
+    _end = request.data['sensor_endtime']
+    Home.objects.filter(id=_id).update(sensor_starttime=_start, sensor_endtime=_end)
+    res = []
+    for info in Home.objects.filter(id=_id).values():
         tmp = info
         res.append(tmp)
     result = json.dumps(res, cls=DjangoJSONEncoder)
