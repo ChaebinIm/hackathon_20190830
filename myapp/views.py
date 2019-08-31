@@ -69,22 +69,10 @@ class homeDetail(APIView):
     def get(self, request, addr):
         print("connect complete!")
         home = Home.objects.filter(address=addr)
-        idx = []
-        for info in home.values():
-            idx.append(info['id'])
         res = []
-        now = datetime.datetime.now()
-        _today = datetime.datetime(now.year,now.month, now.day, 0, 0, 0, 0)
-        #_today.replace(hour=0, minute=0, second=1)
-        for i in range(len(idx)):
-            for info in Status.objects.filter(home_id_id = idx[i]).values():
-                #날짜 조건 추가할 것
-                if _today < info['time']:
-                    tmp = info
-                    tmp['home_No'] = Home.objects.filter(id = idx[i]).values()[0]['home_No']
-                    tmp['message'] = Home.objects.filter(id = idx[i]).values()[0]['message']
-                    #tmp['now'] = _today
-                    res.append(tmp)
+        for info in home.values():
+            tmp = info
+            res.append(tmp)
         result = json.dumps(res, cls=DjangoJSONEncoder)
         return HttpResponse(result, content_type="text/json-comment-filtered")
 
