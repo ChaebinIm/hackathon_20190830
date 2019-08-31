@@ -69,6 +69,7 @@ class statusList(APIView):
 class homeDetail(APIView):
     @csrf_exempt
     def get(self, request, addr):
+        print("connect complete!")
         home = Home.objects.filter(address=addr)
         idx = []
         for info in home.values():
