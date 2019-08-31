@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from .serializers import HomeSerializer, StatusSerializer, NoticeSerializer
 from .models import Home, Status, Notice
@@ -12,8 +13,10 @@ import datetime
 import pytz
 
 
+
 class noticeList(APIView):
     # 게시물 생성 post
+    @csrf_exempt
     def post(self, request, format = None):
         serializer = NoticeSerializer(data=request.data)
         if serializer.is_valid():
@@ -21,30 +24,39 @@ class noticeList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
     # 게시물 조회 get
+    @csrf_exempt
     def get(self, request, format = None):
         queryset = Notice.objects.all()
         serializer = NoticeSerializer(queryset, many = True)
         return Response(serializer.data)
 
+
 class homeList(APIView):
+    @csrf_exempt
     def post(self, request):
         serializer = HomeSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+    @csrf_exempt
     def get(self, request):
         queryset = Home.objects.all()
         serializer = HomeSerializer(queryset, many = True)
         return Response(serializer.data)
 
+
 class statusList(APIView):
+    @csrf_exempt
     def post(self, request):
         serializer = StatusSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+    @csrf_exempt
     def get(self, request):
         queryset = Status.objects.all()
         serializer = StatusSerializer(queryset, many = True)
@@ -53,6 +65,7 @@ class statusList(APIView):
 
 
 class homeDetail(APIView):
+    @csrf_exempt
     def get(self, request, addr):
         home = Home.objects.filter(address=addr)
         idx = []
