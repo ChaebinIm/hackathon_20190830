@@ -36,6 +36,19 @@ class homeList(APIView):
         serializer = HomeSerializer(queryset, many = True)
         return Response(serializer.data)
 
+class statusList(APIView):
+    def post(self, request):
+        serializer = StatusSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    def get(self, request):
+        queryset = Status.objects.all()
+        serializer = StatusSerializer(queryset, many = True)
+        return Response(serializer.data)
+
+
 
 class homeDetail(APIView):
     def get_object(self, addr):
@@ -43,5 +56,14 @@ class homeDetail(APIView):
 
     def get(self, request, addr):
         home = self.get_object(addr)
-        serializer = HomeSerializer(home, many = True)
-        return Response(serializer.data)
+        idx = []
+        for info in home.values():
+            idx.append(info['home_id'])
+        res = []
+        for i in range(len(idx)):
+            for info in Status.objects.filter(id = idx[i]).values():
+                #날짜 조건 추가할 것.
+                tmp = info
+                res.append(tmp)
+        result = json.dumps(res)
+        return Response(result)
